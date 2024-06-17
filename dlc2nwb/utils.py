@@ -74,7 +74,9 @@ def get_movie_timestamps(movie_file, VARIABILITYBOUND=1000, infer_timestamps=Tru
 
     reader = cv2.VideoCapture(movie_file)
     timestamps = []
-    for _ in range(len(reader)):
+    n_frames = int(reader.get(cv2.CAP_PROP_FRAME_COUNT))
+
+    for _ in range(n_frames):
         _ = reader.read()
         timestamps.append(reader.get(cv2.CAP_PROP_POS_MSEC))
 
