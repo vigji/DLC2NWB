@@ -75,6 +75,7 @@ def get_movie_timestamps(movie_file, VARIABILITYBOUND=1000, infer_timestamps=Tru
     reader = cv2.VideoCapture(movie_file)
     timestamps = []
     n_frames = int(reader.get(cv2.CAP_PROP_FRAME_COUNT))
+    fps = reader.get(cv2.CAP_PROP_FPS)
 
     for _ in range(n_frames):
         _ = reader.read()
@@ -82,7 +83,7 @@ def get_movie_timestamps(movie_file, VARIABILITYBOUND=1000, infer_timestamps=Tru
 
     timestamps = np.array(timestamps) / 1000  # Convert to seconds
 
-    if np.nanvar(np.diff(timestamps)) < 1.0 / reader.fps * 1.0 / VARIABILITYBOUND:
+    if np.nanvar(np.diff(timestamps)) < 1.0 / fps * 1.0 / VARIABILITYBOUND:
         warnings.warn(
             "Variability of timestamps suspiciously small. See: https://github.com/DeepLabCut/DLC2NWB/issues/1"
         )
