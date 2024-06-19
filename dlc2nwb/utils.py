@@ -198,6 +198,7 @@ def _write_pes_to_nwbfile(
     paf_graph,
     timestamps,
     exclude_nans,
+    **optional_kwargs,
 ):  
     pose_estimation_series = []
     for kpt, xyp in df_animal.groupby(level="bodyparts", axis=1, sort=False):
@@ -233,6 +234,7 @@ def _write_pes_to_nwbfile(
         source_software_version=deeplabcut_version,
         nodes=[pes.name for pes in pose_estimation_series],
         edges=paf_graph if paf_graph else None,
+        **optional_kwargs,
     )
     if 'behavior' in nwbfile.processing:
         behavior_pm = nwbfile.processing["behavior"]
